@@ -5,7 +5,7 @@
   Drupal.behaviors.exposedfilter_buttons = {
     attach: function(context, settings) {
       // $('a.filter-item').on('click', function(e) {
-      $('.block-views-blockevents-block-1 .date-box a').on('click', function(e) {
+      $('.calendar-calendar .month-view td a[rel]').on('click', function(e) {
         e.preventDefault();
         // Get the ID of clicked element.
         var id = $(e.target).attr('rel');
