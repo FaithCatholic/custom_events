@@ -1,0 +1,12 @@
+custom_events.forms:
+   version: VERSION
+   css:
+     theme:
+       css/custom_events.theme.css: {}
+custom_events.enable:
+  version: VERSION
+  js:
+    js/custom_events.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

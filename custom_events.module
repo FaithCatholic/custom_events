@@ -1,0 +1,68 @@
+<?php
+
+use Drupal\calendar\CalendarHelper;
+use Drupal\Core\Link;
+
+/**
+ * Implements hook_form_alter()
+ */
+function custom_events_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
+  if($form['#id'] == 'views-exposed-form-events-page-1') {
+    $form['#attached']['library'][] = 'custom_events/custom_events.enable';
+    $form['#attached']['library'][] = 'custom_events/custom_events.forms';
+
+    // $dates = array(
+    //   '2017-03-26' => array(
+    //     'min' => '00:00:00',
+    //     'max' => '23:59:59',
+    //   ),
+    // );
+
+    // $i = 0;
+    // $items = array();
+    // foreach ($dates as $date => $times) {
+    //   $items[$i]['#markup'] = '<a href="" class="filter-item" rel="' . $date .' '. $times['min'] . '">' . $date . '</a>';
+    //   $i++;
+    // }
+
+    // $form['links'] = [
+    //   '#theme' => 'item_list',
+    //   '#items' => $items,
+    //   '#attributes' => array('class' => array('dates-list')),
+    // ];
+  }
+}
+
+/**
+ * Create the calendar date box.
+ */
+function custom_events_preprocess_calendar_datebox(&$vars) {
+  $date = $vars['date'];
+  $view = $vars['view'];
+  $vars['day'] = intval(substr($date, 8, 2));
+  $full_date_arg = str_replace('-', '', $date);
+  $day_url = CalendarHelper::getURLForGranularity($view, 'day', [$full_date_arg]);
+
+  if ($day_url) {
+    // $vars['link'] = \Drupal::l($vars['day'], $day_url);
+    $vars['link'] = Link::fromTextAndUrl($vars['day'], $day_url)->toRenderable();
+    $vars['link']['#attributes']['rel'] = $date;
+  }
+  else {
+    $vars['link'] = $vars['day'];
+  }
+
+  $vars['granularity'] = $view->dateInfo->getGranularity();
+  $vars['mini'] = !empty($view->styleInfo->isMini());
+  if ($vars['mini']) {
+    if (!empty($vars['selected'])) {
+      $vars['class'] = 'mini-day-on';
+    }
+    else {
+      $vars['class'] = 'mini-day-off';
+    }
+  }
+  else {
+    $vars['class'] = 'day';
+  }
+}
