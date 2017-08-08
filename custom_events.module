@@ -12,6 +12,10 @@ function custom_events_form_alter(&$form, FormStateInterface $form_state, $form_
   if ($form['#id'] == 'views-exposed-form-events-calendar-page-1') {
     $form['#attached']['library'][] = 'custom_events/custom_events.enable';
     $form['#attached']['library'][] = 'custom_events/custom_events.forms';
+
+    // Prevent focus from highjacking scroll when ajax date is clicked and triggers a distant
+    // submit button lower down the page.
+    $form['actions']['submit']['#attributes'] = array('onFocus' => 'window.scrollTo(0, 0)');
   }
 
   // Event dates use date_range, however calendars use a single date field. Therefore we have to populate a single date

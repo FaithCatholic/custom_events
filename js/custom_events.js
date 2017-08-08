@@ -22,8 +22,6 @@
         // Trigger the select.
         $('#views-exposed-form-events-calendar-page-1 input[name="date[min]"]').trigger('change');
         $('#views-exposed-form-events-calendar-page-1 input.form-submit').trigger('click');
-        // Scroll back to top of screen.
-        $('body, html').animate({scrollTop: 0}, 100);
       });
     }
   };
