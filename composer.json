@@ -1,5 +1,5 @@
 {
-  "name": "drupal/custom_events",
+  "name": "faithcatholic/custom_events",
   "type": "drupal-module",
   "description": "Converts date filter to an ajax filter.",
   "keywords": ["Drupal"],
