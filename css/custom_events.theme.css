@@ -1,4 +1,4 @@
-#views-exposed-form-events-page-1 .form-item,
-#views-exposed-form-events-page-1 .form-actions {
+#views-exposed-form-events-calendar-page-1 .form-item-date-min,
+#views-exposed-form-events-calendar-page-1 .form-item-date-max {
   display: none;
 }

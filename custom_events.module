@@ -7,29 +7,30 @@ use Drupal\Core\Link;
  * Implements hook_form_alter()
  */
 function custom_events_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
-  if($form['#id'] == 'views-exposed-form-events-page-1') {
+  if ($form['#id'] == 'views-exposed-form-events-page-1') {
     $form['#attached']['library'][] = 'custom_events/custom_events.enable';
     $form['#attached']['library'][] = 'custom_events/custom_events.forms';
+  }
 
-    // $dates = array(
-    //   '2017-03-26' => array(
-    //     'min' => '00:00:00',
-    //     'max' => '23:59:59',
-    //   ),
-    // );
+  // Event dates use date_range, however calendars use a single date field. Therefore we have to populate a single date
+  // field with the date_range field populated by the user in order to use the calendar!
+  if ($form_id == 'node_events_form' || $form_id == 'node_events_edit_form') {
+    foreach (array_keys($form['actions']) as $action) {
+      if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
+        $form['actions'][$action]['#submit'][] = '_custom_events_events_form_submit';
+      }
+    }
+  }
+}
 
-    // $i = 0;
-    // $items = array();
-    // foreach ($dates as $date => $times) {
-    //   $items[$i]['#markup'] = '<a href="" class="filter-item" rel="' . $date .' '. $times['min'] . '">' . $date . '</a>';
-    //   $i++;
-    // }
-
-    // $form['links'] = [
-    //   '#theme' => 'item_list',
-    //   '#items' => $items,
-    //   '#attributes' => array('class' => array('dates-list')),
-    // ];
+// Events need to add the start date in its date_range field to the single date field
+// that is compatible with the calendar module. Called from the form_alter hook in this module.
+function _custom_events_events_form_submit($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $values = $form_state->getValues();
+  if ($date = $form_state->getValue('field_date')) {
+    $node = Node::load($values['nid']);
+    $node->set('field_calendar_date', $date[0]['value']->format('Y-m-d'));
+    $node->save();
   }
 }
 
