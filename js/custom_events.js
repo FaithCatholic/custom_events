@@ -16,12 +16,19 @@
         filter_min.val(id_min);
         var filter_max = $('#views-exposed-form-events-calendar-page-1 input[name="date[max]"]');
         filter_max.val(id_max);
+
+        $('#edit-submit-events-calendar').attr('onFocus', 'window.scrollTo(0, 0)');
         // Unset and re-set the active class.
         // $('.filter-item a').removeClass('active');
         // $(e.target).addClass('active');
         // Trigger the select.
         $('#views-exposed-form-events-calendar-page-1 input[name="date[min]"]').trigger('change');
         $('#views-exposed-form-events-calendar-page-1 input.form-submit').trigger('click');
+
+        setTimeout(function() {
+          $('#edit-submit-events-calendar').removeAttr('onFocus')
+        }, 2000);
+
       });
     }
   };
