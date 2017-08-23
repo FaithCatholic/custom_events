@@ -1,0 +1,5 @@
+custom_events.settings:
+  title: 'Custom events'
+  description: 'Configure custom events settings.'
+  route_name: custom_events.settings
+  parent: system.admin_config_system

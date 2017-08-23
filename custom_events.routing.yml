@@ -1,0 +1,8 @@
+
+custom_events.settings:
+  path: '/admin/config/system/custom-events'
+  defaults:
+    _form: '\Drupal\custom_events\Form\Settings'
+    _title: 'Custom Events Settings'
+  requirements:
+    _permission: 'administer site configuration'
