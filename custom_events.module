@@ -32,11 +32,16 @@ function custom_events_form_alter(&$form, FormStateInterface $form_state, $form_
 // Events need to add the start date in its date_range field to the single date field
 // that is compatible with the calendar module. Called from the form_alter hook in this module.
 function _custom_events_events_form_submit($form, FormStateInterface $form_state) {
-  $values = $form_state->getValues();
-  if ($date = $form_state->getValue('field_date')) {
-    $node = Node::load($values['nid']);
-    $node->set('field_calendar_date', $date[0]['value']->format('Y-m-d'));
-    $node->save();
+  $config = \Drupal::config('custom_events.settings');
+
+  if ($config->get('source_date_field') && $config->get('calendar_date_field')) {
+    $values = $form_state->getValues();
+
+    if ($date = $form_state->getValue($config->get('source_date_field'))) {
+      $node = Node::load($values['nid']);
+      $node->set($config->get('calendar_date_field'), $date[0]['value']->format('Y-m-d'));
+      $node->save();
+    }
   }
 }
 
