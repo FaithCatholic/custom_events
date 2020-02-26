@@ -39,7 +39,16 @@ function _custom_events_events_form_submit($form, FormStateInterface $form_state
 
     if ($date = $form_state->getValue($config->get('source_date_field'))) {
       $node = Node::load($values['nid']);
-      $node->set($config->get('calendar_date_field'), $date[0]['value']->format('Y-m-d'));
+
+      // If the date is not set, then the calendar date is blank.
+      if (!empty($date[0]['value'])) {
+        $date = $date[0]['value']->format('Y-m-d');
+      } else {
+        $date = '';
+      }
+
+      // Populate the data and save the node.
+      $node->set($config->get('calendar_date_field'), $date);
       $node->save();
     }
   }
