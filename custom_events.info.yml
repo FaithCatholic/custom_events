@@ -2,4 +2,5 @@ name: Custom events
 type: module
 description: Converts date filter to an ajax filter.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: Custom
